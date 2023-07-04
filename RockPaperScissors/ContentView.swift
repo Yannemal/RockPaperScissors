@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var cpuChoseRock = false
     @State private var cpuChoseScissors = false
     @State private var winTowin : Bool = false
-    @State private var playerChoice : String = ""
+    @State private var playerChoice : Int = 0
     @State private var playerChosePaper = false
     @State private var playerChoseRock = false
     @State private var playerChoseScissors = false
@@ -88,46 +88,93 @@ struct ContentView: View {
                 
                 HStack{
                     Button(items[2]) {
-                        // action
+                        // action player chose Scissor
+                        playerChoice = 2
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(180))
                         .shadow(color: .white, radius: playerChoseScissors ? 25 : 0)
                     Button(items[1]) {
-                        // action
+                        // action player chose rock
+                        playerChoice = 1
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(180))
                         .shadow(color: .white, radius: playerChoseRock ? 25 : 0)
-
+                    
+                    
                     Button(items[0]) {
-                        // action
+                        // action player chose paper
+                        playerChoice = 0
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(90))
                         .shadow(color: .white, radius: playerChosePaper ? 25 : 0)
-
+                    
                 }
                 Spacer()
                 // keep score section:
                 HStack{
                     ForEach(0..<keepScore.count, id: \.self) {
                         Text("\(keepScore[$0])")
-
+                        
                     }
-
+                    
                 }
                 
             }
         }
     }
-
-// MARK: - METHODS
-    func itemTapped(choice: Int){
-                //code for playerChoosing
-            }
-        
     
+    // MARK: - METHODS
+    
+    func resetGame() {
+        currentRound = 0
+        keepScore = ["⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️"]
+        cpuChoice = Int.random(in: 0...2)
+        
+        winTowin = Bool.random()
+        playerChoice  = 0
+        playerChosePaper = false
+        playerChoseRock = false
+        playerChoseScissors = false
+    }
+    
+    func newRoundShuffle() {
+        playerChoice  = 0
+        playerChosePaper = false
+        playerChoseRock = false
+        playerChoseScissors = false
+        // shuffle CPU and modifier
+        cpuChoice = Int.random(in: 0...2)
+        winTowin = Bool.random()
+    }
+    
+    // TODO: player push button
+    func itemTapped(choice: Int){
+        //code for playerChoosing and pushing button
+    }
+    
+    
+    func checkOutcome(cpu: Int, player: Int, modifier: Bool) -> Bool {
+        // check cpu + modifier + player and return true or false for win
+        // outcome win return true
+        // outcome lose return false
+        return false        }
+    
+    func scoreRound(round: Int, result: Bool) {
+        // update keepScoreArray
+        
+        // next round
+        if currentRound == 11 {
+            // alert with final score > continue = reset
+            // resetGame()
+        } else {
+            currentRound += 1
+            newRoundShuffle()
+        }
+        
+    }
 }
 // MARK: - PREVIEW
 struct ContentView_Previews: PreviewProvider {
