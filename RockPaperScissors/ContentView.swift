@@ -11,12 +11,12 @@ struct ContentView: View {
     
     // MARK: - Data
     @State private var items = ["🧻", "🪨", "✂️"]
-    @State private var cpuChoice : Int = 0
+    @State private var cpuChoice : String = ""
     @State private var cpuChosePaper = false
     @State private var cpuChoseRock = false
     @State private var cpuChoseScissors = false
     @State private var winTowin : Bool = false
-    @State private var playerChoice : Int = 0
+    @State private var playerChoice : String = ""
     @State private var playerChosePaper = false
     @State private var playerChoseRock = false
     @State private var playerChoseScissors = false
@@ -89,14 +89,20 @@ struct ContentView: View {
                 HStack{
                     Button(items[2]) {
                         // action player chose Scissor
-                        playerChoice = 2
+                        playerChoice = items[2]
+                        playerChoseScissors = true
+                        playerChoseRock = false
+                        playerChosePaper = false
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(180))
                         .shadow(color: .white, radius: playerChoseScissors ? 25 : 0)
                     Button(items[1]) {
                         // action player chose rock
-                        playerChoice = 1
+                        playerChoice = items[1]
+                        playerChoseRock = true
+                        playerChoseScissors = false
+                        playerChosePaper = false
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(180))
@@ -105,7 +111,10 @@ struct ContentView: View {
                     
                     Button(items[0]) {
                         // action player chose paper
-                        playerChoice = 0
+                        playerChoice = items[0]
+                        playerChosePaper = true
+                        playerChoseRock = false
+                        playerChoseScissors = false
                     }   .font(.system(size: 80))
                         .foregroundColor(.primary)
                         .rotationEffect(.degrees(90))
@@ -131,22 +140,37 @@ struct ContentView: View {
     func resetGame() {
         currentRound = 0
         keepScore = ["⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️", "⬛️"]
-        cpuChoice = Int.random(in: 0...2)
+        cpuChoice = items.randomElement() ?? ""
         
         winTowin = Bool.random()
-        playerChoice  = 0
+        playerChoice  = items.randomElement() ?? ""
         playerChosePaper = false
         playerChoseRock = false
         playerChoseScissors = false
     }
     
     func newRoundShuffle() {
-        playerChoice  = 0
+        playerChoice  = ""
         playerChosePaper = false
         playerChoseRock = false
         playerChoseScissors = false
         // shuffle CPU and modifier
-        cpuChoice = Int.random(in: 0...2)
+        cpuChoice = items.randomElement() ?? ""
+        switch cpuChoice {
+        case items[0] :  cpuChosePaper = true
+                         cpuChoseRock = false
+                         cpuChoseScissors = false
+
+        case items[1] : cpuChosePaper = false
+                        cpuChoseRock = true
+                        cpuChoseScissors = false
+
+        case items[2] : cpuChosePaper = false
+                        cpuChoseRock = false
+                        cpuChoseScissors = true
+        default:
+            print("error while newRoundShuffle")
+        }
         winTowin = Bool.random()
     }
     
@@ -156,11 +180,99 @@ struct ContentView: View {
     }
     
     
-    func checkOutcome(cpu: Int, player: Int, modifier: Bool) -> Bool {
-        // check cpu + modifier + player and return true or false for win
-        // outcome win return true
-        // outcome lose return false
-        return false        }
+    func checkOutcome()  {
+        // check cpu + modifier + player > @State no need for parameters
+        // outcome win return true  >> maybe not return
+        // can I nest Switch statements ?
+        switch player {
+        case items[2] :
+            switch cpuChoice {
+            case items[0]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 1")
+                }
+            case items[1]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 2")
+                }
+            case items[2]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 3")
+                }
+            default:
+                print("error while switch Player then cpu choice")
+            }
+            
+            
+        case items[1] :
+            switch cpuChoice {
+            case items[0]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 1")
+                }
+            case items[1]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 2")
+                }
+            case items[2]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 3")
+                }
+            default:
+                print("error while switch Player then cpu choice")
+            }
+        case items[0] :
+            switch cpuChoice {
+            case items[0]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 1")
+                }
+            case items[1]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 2")
+                }
+            case items[2]:
+                switch winTowin {
+                case true :
+                case false:
+                default :
+                    print("error while checking playerChoice, cpuChoice then modifier 3")
+                }
+            default:
+                print("error while switch Player then cpu choice")
+            }
+            
+        default:
+            print("error while checkOutcome")
+        }
+        
+        
+        
+    }
     
     func scoreRound(round: Int, result: Bool) {
         // update keepScoreArray
