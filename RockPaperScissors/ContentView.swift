@@ -101,7 +101,7 @@ struct ContentView: View {
                     
                     Button(items[2]) {
                         // action player chose Scissor
-                        if currentRound == 11 {
+                        if currentRound == 10 {
                             //endGame
                             resultMessage = "Game Over"
                             gameOver = true
@@ -135,7 +135,7 @@ struct ContentView: View {
                     
                     Button(items[0]) {
                         // action player chose paper
-                        if currentRound == 11 {
+                        if currentRound == 10 {
                             //endGame
                             resultMessage = "Game Over"
                             gameOver = true
@@ -174,10 +174,6 @@ struct ContentView: View {
     
     // MARK: - METHODS
     
- 
-
-    
-    // TODO: player push button
     func itemTapped(choice: String){
         playerChoice = choice
         switch playerChoice {
